@@ -1,18 +1,18 @@
 import React, { useState } from "react"; // React + hook useState
 import "../styles/login.css"; // Fichier CSS partagé avec SignIn
-import { Link } from "react-router-dom"; // Pour le lien vers la page de connexion
+import "../styles/forgot-password.css"; // Fichier CSS forgot-password
+import { Link } from "react-router-dom"; // lien vers la page de connexion
 import { Icon } from "@iconify/react"; // 📧 Icône email
 
 // Composant ForgotPassword
 const ForgotPassword = () => {
-  // États locaux
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState(""); // Pour les messages de confirmation
-  const [error, setError] = useState("");     // Pour afficher les erreurs
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); // 👈 loader comme dans signin
 
-  // Fonction appelée au submit
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Empêche le rechargement de la page
+    e.preventDefault();
 
     if (!email) {
       setError("Veuillez entrer votre adresse email.");
@@ -20,32 +20,32 @@ const ForgotPassword = () => {
     }
 
     setError("");
-    setMessage("Traitement en cours...");
+    setMessage("");
+    setLoading(true); // 👈 démarre le loader
 
     try {
       const response = await fetch("http://localhost:8000/api/forgot-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }), // Envoie uniquement l'email
+        body: JSON.stringify({ email }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
         setError(data.message || "Une erreur est survenue.");
-        setMessage("");
       } else {
         setMessage("Un lien de réinitialisation a été envoyé à votre adresse email.");
       }
     } catch (err) {
       setError("Erreur de connexion au serveur.");
-      setMessage("");
+    } finally {
+      setLoading(false); // 👈 stoppe le loader à la fin
     }
   };
 
   return (
     <section className="auth">
-      {/* Partie gauche - Branding */}
       <div className="auth-left">
         <div className="branding">
           <h1 className="gspd">GSPD</h1>
@@ -54,41 +54,22 @@ const ForgotPassword = () => {
             Bienvenue sur votre Plateforme de Gestion <br />
             et Suivi des Dépenses
           </p>
-
-          {/* Logo SVG */}
-          <svg
-            width="500"
-            height="501"
-            viewBox="0 0 500 501"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="logo"
-          >
-            <path
-              d="M131.579 306.386V105.197H210.526V306.386L171.053 269.567L131.579 306.386ZM263.158 345.835V0H342.105V266.937L263.158 345.835ZM0 436.567V210.394H78.9474V357.669L0 436.567ZM0 501L169.737 331.37L263.158 411.583L410.526 264.307H368.421V211.709H500V343.205H447.368V301.126L265.789 482.591L172.368 402.378L73.6842 501H0Z"
-              fill="white"
-            />
-          </svg>
+          {/* logo SVG... */}
         </div>
       </div>
 
-      {/* Partie droite - Formulaire de récupération */}
       <div className="auth-right">
         <div className="form-container">
           <h4>Mot de passe oublié</h4>
 
-          {/* Petit texte explicatif */}
           <p style={{ marginBottom: "1rem", fontSize: "1rem", color: "#555" }}>
             Un lien de réinitialisation vous sera envoyé si un compte est associé à cette adresse.
           </p>
 
-          {/* Affichage d'erreur ou de succès */}
           {error && <p style={{ color: "red", fontSize: "0.9rem" }}>{error}</p>}
           {message && <p style={{ color: "green", fontSize: "0.9rem" }}>{message}</p>}
 
-          {/* Formulaire */}
           <form onSubmit={handleSubmit}>
-            {/* Champ email avec icône */}
             <div className="input-icon-wrapper">
               <span className="input-icon">
                 <Icon icon="mdi:email-outline" />
@@ -101,10 +82,15 @@ const ForgotPassword = () => {
               />
             </div>
 
-            {/* Actions : bouton + lien */}
             <div className="form-actions">
-              <button type="submit" className="reset-btn" disabled={email === ""}>
-                Réinitialiser le mot de passe
+              <button type="submit" className="reset-btn" disabled={loading || email === ""}>
+                {loading ? (
+                  <>
+                    <span className="loader"></span> Réinitialisation en cours...
+                  </>
+                ) : (
+                  "Réinitialiser le mot de passe"
+                )}
               </button>
 
               <span className="signin-text">

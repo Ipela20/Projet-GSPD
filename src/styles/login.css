@@ -1,4 +1,4 @@
-/* RESET GÉNÉRAL */
+/* Login css */
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -109,22 +109,6 @@ button[type="submit"]:hover {
   background-color: rgb(30, 110, 70); /* plus foncé au hover */
 }
 
-/* MOT DE PASSE OUBLIÉ */
-.forgot-password {
-  margin-top: 0.5rem;
-  text-align: right;
-}
-
-.forgot-link {
-  font-size: 0.9rem;
-  color: rgb(37,140,87);
-  text-decoration: none;
-}
-
-.forgot-link:hover {
-  text-decoration: underline;
-}
-
 /* LOGO SVG */
 .logo {
   display: block;
@@ -170,53 +154,6 @@ button[type="submit"]:hover {
 .multiline {
   line-height: 1.4;
   max-width: 90%;
-}
-
-/* FORM ACTIONS (boutons / lien se connecter) */
-.form-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 1rem;
-  gap: 1rem;
-}
-
-.reset-btn {
-  padding: 0.6rem 0.8rem;
-  background-color: rgb(37, 140, 87);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  white-space: nowrap;
-  max-width: 250px;
-}
-
-.reset-btn:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.signin-text {
-  margin-left: auto;
-  font-size: 0.9rem;
-  color: #555;
-  white-space: nowrap;
-}
-
-.signin-link {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: rgb(37, 140, 87);
-  text-decoration: none;
-  padding: 0.6rem 0.8rem;
-}
-
-.signin-link:hover {
-  text-decoration: underline;
 }
 
 /* RESPONSIVE */
